@@ -44,6 +44,11 @@ export default {
 			nextToDoId: 3
 		}
 	},
+	mounted () {
+		if (localStorage.getItem('personalToDoList') !== null) {
+			this.toDoListItems = JSON.parse(localStorage.getItem('personalToDoList'))
+		}
+	},
 	methods: {
 		create () {
 			this.toDoListItems.push({
@@ -51,15 +56,18 @@ export default {
 				text: this.addToDoText.trim()
 			})
 			this.addToDoText = ''
+			localStorage.setItem('personalToDoList', JSON.stringify(this.toDoListItems))
 		},
 		edit (id, editedText) {
 			let item = this.toDoListItems.find(item => item.id === id)
 			if (item) {
 				item.text = editedText
 			}
+			localStorage.setItem('personalToDoList', JSON.stringify(this.toDoListItems))
 		},
 		remove (id) {
 			this.toDoListItems.splice(this.toDoListItems.indexOf(id), 1)
+			localStorage.setItem('personalToDoList', JSON.stringify(this.toDoListItems))
 		}
 	}
 }
